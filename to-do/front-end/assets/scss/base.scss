@@ -1,0 +1,86 @@
+// ao carregar um layout
+.layout-enter-active,
+.layout-leave-active {
+  transition: opacity 0.10s ease-in-out, transform 0.10s ease-in-out;
+}
+
+// ao fechar um layout
+.layout-enter,
+.layout-leave-active {
+  opacity: 0;
+  transform: translate3d(0, 15px, 0);
+}
+
+// ao carregar uma página
+.page-enter-active,
+.page-leave-active {
+  transition: opacity 0.10s ease-in-out, transform 0.10s ease-in-out;
+}
+
+// ao fechar uma página
+.page-enter,
+.page-leave-to {
+  opacity: 0;
+  transform: translate3d(0, 15px, 0);
+}
+
+/*scroll bar personalizada, chrome, edge e safari*/
+*::-webkit-scrollbar {
+  width: 12px; // width of the entire scrollbar
+}
+
+*::-webkit-scrollbar-track {
+  background: #272938; // color of the tracking area
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #A1A7BB; // color of the scroll thumb
+  border-radius: 20px; // roundness of the scroll thumb
+  border: 3px solid #323445; // creates padding around scroll thumb
+}
+
+/*scroll bar personalizada para firefox*/
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #323445;
+}
+
+.toast-notification {
+  font-family: 'Roboto';
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.table-backup {
+  .status-badge {
+    margin-left: 20px;
+  }
+}
+
+.switch-update {
+  margin-top: -15px;
+}
+
+.box-check {
+  margin-top: -30px;
+}
+
+
+@media (max-width: 1024px) {
+  .text-long {
+    display: none;
+  }
+}
+
+@media (min-width: 1025px) {
+  .text-small {
+    display: none;
+  }
+}
+
+
+@media (max-width: 3755px) {
+  .text-small {
+    font-size: 10px;
+  }
+}
