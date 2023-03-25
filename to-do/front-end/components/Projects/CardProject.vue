@@ -114,7 +114,7 @@
         >
           <v-icon size="20">mdi-attachment</v-icon>
           <p style="color: #bdbdbd; font-size: 0.7rem; margin-top: 1rem">
-            {{ project.totalFiles }}
+            {{ $totalFiles }}
           </p>
         </v-btn>
       </div>
@@ -134,6 +134,7 @@
 
     <ProjectAttachment
       :show="dialogAtachmment"
+      :project-id="project.id"
       @close="dialogAtachmment = false"
     />
   </v-card>
@@ -164,11 +165,15 @@ export default Vue.extend({
 
       return percent * 100
     },
+
+    $totalFiles(): number {
+      return this.project.totalFiles ? this.project.totalFiles : 0
+    }
   },
 
   methods: {
-    showAttachment() {
-      files.index(this.project.id!.toString())
+    async showAttachment() {
+      await files.index({ projectId: this.project.id!, type: 'project' })
 
       this.dialogAtachmment = true
     },

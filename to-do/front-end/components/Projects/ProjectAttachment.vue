@@ -19,7 +19,8 @@
           ref="uploader"
           type="file"
           class="d-none"
-          accept=".jpg,.jpeg,.png,.pdf"
+          accept=".jpg,.jpeg,.png,.pdf,.pdf,.xlsx,.docx,.txt"
+          @input="sendFile"
         />
       </v-card-title>
       <v-card-text>
@@ -30,8 +31,12 @@
           no-data-text="sem dados!"
         >
           <template #[`item.actions`]="{ item }">
-            <v-btn icon @click="deleteAttachment(item)">
+            <v-btn icon @click="destroy(item)">
               <v-icon color="red">mdi-delete-outline</v-icon>
+            </v-btn>
+
+            <v-btn icon @click="downFile(item)">
+              <v-icon color="green">mdi-file</v-icon>
             </v-btn>
           </template>
         </v-data-table>
@@ -45,12 +50,13 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { files } from '@/store'
-import { FilesProps } from '@/data'
+import { files, projects } from '@/store'
+import { FilesProps } from '~/data'
 
 export default Vue.extend({
   props: {
     show: { type: Boolean, default: false },
+    projectId: { type: Number, default: 0 },
   },
 
   data: () => ({
@@ -58,7 +64,7 @@ export default Vue.extend({
       {
         text: 'Arquivo',
         align: 'start',
-        value: 'fileName',
+        value: 'attachementName',
       },
       { text: 'Ações', value: 'actions', sortable: false },
     ],
@@ -66,14 +72,27 @@ export default Vue.extend({
 
   computed: {
     $files() {
-      console.log(files.$all)
       return files.$all
     },
   },
 
   methods: {
-    deleteAttachment(item: FilesProps) {
-      console.log('🚀 ~ file: ProjectAttachment.vue ~ line 75 ~ item', item)
+    async sendFile(event: any) {
+      const file = event.target.files[0] as File
+
+      await files.create({ file, ownerId: this.projectId, type: 'project' })
+      await files.index({ projectId: this.projectId, type: 'project' })
+      await projects.index('')
+    },
+
+    async downFile(file: FilesProps) {
+      await files.downFile(file)
+    },
+
+    async destroy(file: FilesProps) {
+      await files.destroy(file)
+      await files.index({ projectId: this.projectId, type: 'project' })
+      await projects.index('')
     },
   },
 })
